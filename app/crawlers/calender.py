@@ -1,14 +1,21 @@
-import time
+import time, re, datetime
 
 from selenium import webdriver
 
+from app.api.models.calender import CalenderModel
+
+
+# 현재년도
+year = datetime.datetime.now().year
+# 정규식
+pattern = re.compile('\d+')
 
 # User Agent 설정
 options = webdriver.ChromeOptions()
 options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
 
 # driver 인스턴스 생성
-driver = webdriver.Chrome(executable_path='chromedriver', options=options)
+driver = webdriver.Chrome(executable_path='chromedriver.exe', options=options)
 
 url = "https://stu.sen.go.kr/edusys.jsp?page=sts_m42220"
 
@@ -45,6 +52,12 @@ select_options = [options for options in select_box.find_elements_by_tag_name('o
 
 # 월별 조회
 for options in select_options:
+    # 월 저장
+    month = options.text
+    month = pattern.findall(month)[0]
+    month = int(month)
+    if month == 1:
+        year += 1
     # 각 월 선택
     options.click()
     # 조회
@@ -55,13 +68,16 @@ for options in select_options:
     days = driver.find_elements_by_css_selector('tbody#genCalendarWeb > tr.w2group  > td.w2group.w2tb_td.verT.w2tb_noTH')
 
     for day in days:
-        # 날짜 가져오기
-        date = day.find_element_by_css_selector('div.textL').text
-
         try:
+            # 날짜 가져오기
+            date = day.find_element_by_css_selector('div.textL').text
+            date = int(date)
             # 일정 가져오기
             detail = day.find_element_by_css_selector('div > a.textL').text
         except:
-            detail = ""
+            continue
 
-        print(date, detail)
+        date = datetime.date(year, month, date)
+
+        # Calender 레코드 생성 및 저장
+        CalenderModel.add_schedule(date, detail)
