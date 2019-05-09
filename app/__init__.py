@@ -9,7 +9,7 @@ app.config.from_object('config')
 
 db = SQLAlchemy(app)
 
-from app.api.models import calender
+from app.api.models import calender, meal
 
 
 try:
