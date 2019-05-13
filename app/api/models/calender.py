@@ -5,7 +5,7 @@ from app.utils.mixins import BaseMixin
 
 
 class CalenderModel(BaseModel, BaseMixin):
-    __tablename__ = 'api_calender'
+    __tablename__ = 'Calendars'
 
     month = db.Column(db.Integer, nullable=False)
     date = db.Column(db.Integer, nullable=False)
