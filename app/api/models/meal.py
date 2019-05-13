@@ -8,12 +8,17 @@ class MealModel(BaseModel, BaseMixin):
     __tablename__ = 'api_meal'
 
     date = db.Column(db.Date, nullable=False)
-    lunch = db.Column(db.String(150), nullable=False)
+    detail = db.Column(db.String(150), nullable=False)
 
-    def __init__(self, date: str, lunch: str):
+    def __init__(self, date: str, detail: str):
         self.date = date
-        self.lunch = lunch
+        self.detail = detail
 
     @staticmethod
-    def add_lunch(date, lunch):
-        return MealModel(date, lunch).save()
+    def add_lunch(date: str, detail: str):
+        if not MealModel.get_lunch(date, detail):
+            return MealModel(date, detail).save()
+
+    @staticmethod
+    def get_lunch(date: str, detail: str):
+        return MealModel.query.filter_by(date=date, detail=detail).first()
