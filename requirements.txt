@@ -10,6 +10,7 @@ Jinja2==2.10
 MarkupSafe==1.1.0
 post==2019.3.22
 public==2019.3.22
+PyMySQL==0.9.3
 query-string==2019.3.22
 requests==2.21.0
 selenium==3.141.0
