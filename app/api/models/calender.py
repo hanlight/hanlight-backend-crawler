@@ -15,5 +15,10 @@ class CalenderModel(BaseModel, BaseMixin):
         self.detail = detail
 
     @staticmethod
-    def add_schedule(date: str, detail: str):
-        return CalenderModel(date, detail).save()
+    def add_schedule(date, detail: str):
+        if not CalenderModel.get_schedule(date, detail):
+            return CalenderModel(date, detail).save()
+
+    @staticmethod
+    def get_schedule(date: str, detail: str):
+        return CalenderModel.query.filter_by(date=date, detail=detail).first()
