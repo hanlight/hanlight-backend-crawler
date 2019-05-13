@@ -1,4 +1,4 @@
-import time, re, datetime
+import time, re, datetime, os
 
 from selenium import webdriver
 
@@ -15,7 +15,7 @@ options = webdriver.ChromeOptions()
 options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
 
 # driver 인스턴스 생성
-driver = webdriver.Chrome(executable_path='chromedriver.exe', options=options)
+driver = webdriver.Chrome(executable_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'chromedriver.exe'), options=options)
 
 url = "https://stu.sen.go.kr/edusys.jsp?page=sts_m42220"
 
@@ -81,3 +81,5 @@ for options in select_options:
 
         # Calender 레코드 생성 및 저장
         CalenderModel.add_schedule(date, detail)
+
+driver.close()
