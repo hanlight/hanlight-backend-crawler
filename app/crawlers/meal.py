@@ -6,11 +6,13 @@ from app.api.models.meal import MealModel
 # 정규식
 pattern = re.compile('[가-힣]+')
 
+date = datetime.datetime.now()
+
 data = {
     'schl_cd': 'B100000662',
     'type_cd': 'M',
-    'year': '2017',
-    'month': '4'
+    'year': date.year,
+    'month': date.month
 }
 
 # url 정의
@@ -27,15 +29,15 @@ def show_data(data):
         date = data['inqry_mm'] + data['dd_date'].zfill(2)
         date = datetime.datetime.strptime(date, '%Y%m%d').date()
         # lunch 배열 정리
-        lunch = data['lunch'].split(',')
+        detail = data['lunch'].split(',')
         # 음식 이름만 가져오도록 정규표현식으로 처리
-        lunch = list(map(lambda food: pattern.findall(food)[0], lunch))
+        detail = list(map(lambda food: pattern.findall(food)[0], detail))
         # list -> string으로 변환
-        lunch = ','.join(lunch)
+        detail = ','.join(detail)
     except:
         return False
 
     # Meal에 레코드 추가
-    MealModel.add_lunch(date, lunch)
+    MealModel.add_lunch(date, detail)
 
 list(map(show_data, json_datas))
