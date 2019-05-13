@@ -77,9 +77,7 @@ for options in select_options:
         except:
             continue
 
-        date = datetime.date(year, month, date)
-
         # Calender 레코드 생성 및 저장
-        CalenderModel.add_schedule(date, detail)
+        CalenderModel.add_schedule(month, date, detail)
 
 driver.close()
