@@ -38,6 +38,6 @@ def show_data(data):
         return False
 
     # Meal에 레코드 추가
-    MealModel.add_lunch(date, detail)
+    MealModel.add_lunch(date.month, date.day, detail)
 
 list(map(show_data, json_datas))

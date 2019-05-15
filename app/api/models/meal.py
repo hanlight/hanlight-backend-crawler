@@ -5,20 +5,24 @@ from app.utils.mixins import BaseMixin
 
 
 class MealModel(BaseModel, BaseMixin):
-    __tablename__ = 'api_meal'
+    __tablename__ = 'Meals'
 
-    date = db.Column(db.Date, nullable=False)
+    month = db.Column(db.Integer, nullable=False)
+    date = db.Column(db.Integer, nullable=False)
     detail = db.Column(db.String(150), nullable=False)
+    createdAt = None
+    updatedAt = None
 
-    def __init__(self, date: str, detail: str):
+    def __init__(self, month: int, date: int, detail: str):
+        self.month = month
         self.date = date
         self.detail = detail
 
     @staticmethod
-    def add_lunch(date: str, detail: str):
-        if not MealModel.get_lunch(date, detail):
-            return MealModel(date, detail).save()
+    def add_lunch(month: int, date: int, detail: str):
+        if not MealModel.get_lunch(month, date, detail):
+            return MealModel(month, date, detail).save()
 
     @staticmethod
-    def get_lunch(date: str, detail: str):
-        return MealModel.query.filter_by(date=date, detail=detail).first()
+    def get_lunch(month: int, date: int, detail: str):
+        return MealModel.query.filter_by(month=month, date=date, detail=detail).first()
