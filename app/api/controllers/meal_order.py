@@ -17,7 +17,11 @@ def update_meal_order():
     if MealModel.get_lunch(month=today.month, date=today.day):
         feed_order = FeedOrderModel.latest_feed_order()
         if feed_order.count >= 5:
-            FeedOrderModel.add_feed_order(order="게임-유센-해킹", count=1)
+            feed_order = feed_order.order.split('-')
+            last_class = feed_order.pop()
+            feed_order.insert(0, last_class)
+            feed_order = '-'.join(feed_order)
+            FeedOrderModel.add_feed_order(order=feed_order, count=1)
         else:
             feed_order.count += 1
         db.session.commit()
