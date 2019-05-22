@@ -20,9 +20,9 @@ class MealModel(BaseModel, BaseMixin):
 
     @staticmethod
     def add_lunch(month: int, date: int, detail: str):
-        if not MealModel.get_lunch(month, date, detail):
+        if not MealModel.get_lunch(month, date):
             return MealModel(month, date, detail).save()
 
     @staticmethod
-    def get_lunch(month: int, date: int, detail: str):
-        return MealModel.query.filter_by(month=month, date=date, detail=detail).first()
+    def get_lunch(month: int, date: int):
+        return MealModel.query.filter_by(month=month, date=date).first()
