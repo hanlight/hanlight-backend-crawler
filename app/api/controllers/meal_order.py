@@ -24,33 +24,10 @@ def update_meal_order():
             FeedOrderModel.add_feed_order(order=feed_order, count=1)
 
             db.session.commit()
-
-            return make_response(jsonify({
-                "success": True,
-                "data": {
-                    "feed_order": feed_order,
-                    "message": "새로운 급식 순서 생성"
-                }
-            }), 201)
         else:
             feed_order.count += 1
 
             db.session.commit()
-
-            return make_response(jsonify({
-                "success": True,
-                "data": {
-                    "feed_order":feed_order.order,
-                    "message": "급식 순서 카운팅"
-                }
-            }), 200)
-
-    return make_response(jsonify({
-        "success": True,
-        "data": {
-            "message": "당일 급식 조회 실패"
-        }
-    }))
 
 
 @meal_order.route('/get/')

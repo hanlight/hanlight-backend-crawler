@@ -3,41 +3,44 @@ import requests, json, re, datetime
 from app.api.models.meal import MealModel
 
 
-# 정규식
-pattern = re.compile('[가-힣]+')
+class MealCrawler:
+    def __init__(self):
+        # 정규식
+        self.pattern = re.compile('[가-힣]+')
 
-date = datetime.datetime.now()
+        self.date = datetime.datetime.now()
 
-data = {
-    'schl_cd': 'B100000662',
-    'type_cd': 'M',
-    'year': date.year,
-    'month': date.month
-}
+        self.data = {
+            'schl_cd': 'B100000662',
+            'type_cd': 'M',
+            'year': self.date.year,
+            'month': self.date.month
+        }
 
-# url 정의
-url = "https://www.foodsafetykorea.go.kr/portal/sensuousmenu/selectSchoolMonthMealsDetail.do"
+        # url 정의
+        self.url = "https://www.foodsafetykorea.go.kr/portal/sensuousmenu/selectSchoolMonthMealsDetail.do"
 
-res = requests.post(url, data=data)
+        self.res = requests.post(self.url, data=self.data)
 
-json_datas = res.text
-json_datas = json.loads(json_datas)['list']
+        self.json_datas = self.res.text
+        self.json_datas = json.loads(self.json_datas)['list']
 
-def show_data(data):
-    try:
-        # 날짜
-        date = data['inqry_mm'] + data['dd_date'].zfill(2)
-        date = datetime.datetime.strptime(date, '%Y%m%d').date()
-        # lunch 배열 정리
-        detail = data['lunch'].split(',')
-        # 음식 이름만 가져오도록 정규표현식으로 처리
-        detail = list(map(lambda food: pattern.findall(food)[0], detail))
-        # list -> string으로 변환
-        detail = ','.join(detail)
-    except:
-        return False
+    def __call__(self, *args, **kwargs):
+        list(map(self.save_data, self.json_datas))
 
-    # Meal에 레코드 추가
-    MealModel.add_lunch(date.month, date.day, detail)
+    def save_data(self, data):
+        try:
+            # 날짜
+            date = data['inqry_mm'] + data['dd_date'].zfill(2)
+            date = datetime.datetime.strptime(date, '%Y%m%d').date()
+            # lunch 배열 정리
+            detail = data['lunch'].split(',')
+            # 음식 이름만 가져오도록 정규표현식으로 처리
+            detail = list(map(lambda food: self.pattern.findall(food)[0], detail))
+            # list -> string으로 변환
+            detail = ','.join(detail)
+        except:
+            return False
 
-list(map(show_data, json_datas))
+        # Meal에 레코드 추가
+        MealModel.add_lunch(date.month, date.day, detail)
