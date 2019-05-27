@@ -1,3 +1,4 @@
+APScheduler==3.6.0
 certifi==2018.11.29
 chardet==3.0.4
 Click==7.0
@@ -11,10 +12,14 @@ MarkupSafe==1.1.0
 post==2019.3.22
 public==2019.3.22
 PyMySQL==0.9.3
+python-dateutil==2.8.0
+pytz==2019.1
 query-string==2019.3.22
 requests==2.21.0
 selenium==3.141.0
+six==1.12.0
 soupsieve==1.8
 SQLAlchemy==1.2.18
+tzlocal==1.5.1
 urllib3==1.24.1
 Werkzeug==0.14.1
