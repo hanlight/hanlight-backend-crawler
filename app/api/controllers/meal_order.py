@@ -2,7 +2,7 @@ import datetime
 
 from flask import Blueprint, jsonify, make_response
 
-from app import db
+from app import db, logger
 from app.api.models.meal import MealModel
 from app.api.models.meal_order import FeedOrderModel
 
@@ -24,10 +24,12 @@ def update_meal_order():
             FeedOrderModel.add_feed_order(order=feed_order, count=1)
 
             db.session.commit()
+            logger.debug('Add new MealOrder!!')
         else:
             feed_order.count += 1
 
             db.session.commit()
+            logger.debug('Counting MealOrder Successful!!')
 
 
 @meal_order.route('/get/')
