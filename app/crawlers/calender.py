@@ -78,6 +78,6 @@ for options in select_options:
             continue
 
         # Calender 레코드 생성 및 저장
-        CalenderModel.add_schedule(month, date, detail)
+        CalenderModel.add_schedule(year, month, date, detail)
 
 driver.close()
