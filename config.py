@@ -12,6 +12,6 @@ THREADS_PER_PAGE = 2
 
 CSRF_ENABLED = True
 
-CSRF_SESSION_KEY ='secret'
+CSRF_SESSION_KEY = os.environ.get('CSRF_SESSION_KEY')
 
-SECRET_KEY ='secret'
+SECRET_KEY = os.environ.get('SECRET_KEY')

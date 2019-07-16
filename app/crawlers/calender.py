@@ -73,11 +73,16 @@ for options in select_options:
             date = day.find_element_by_css_selector('div.textL').text
             date = int(date)
             # 일정 가져오기
-            detail = day.find_element_by_css_selector('div > a.textL').text
+            detail = day.find_elements_by_css_selector('div > a.textL')
+            if detail:
+                detail = ','.join([x.text for x in detail])
+            else:
+                continue
         except:
             continue
 
         # Calender 레코드 생성 및 저장
         CalenderModel.add_schedule(year, month, date, detail)
+        # Todo: db.session.flush를 사용하여 bulk_create 로직 구성
 
 driver.close()
