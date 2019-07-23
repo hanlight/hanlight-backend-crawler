@@ -11,11 +11,11 @@ meal_order = Blueprint('meal_order', __name__, url_prefix='/meal-order/')
 def update_meal_order():
     feed_order = FeedOrderModel.latest_feed_order()
 
-    feed_order = feed_order.order.split('-')
-    last_class = feed_order.pop()
-    feed_order.insert(0, last_class)
-    feed_order = '-'.join(feed_order)
-    feed_order.order = feed_order
+    new_feed_order = feed_order.order.split('-')
+    last_class = new_feed_order.pop()
+    new_feed_order.insert(0, last_class)
+    new_feed_order = '-'.join(new_feed_order)
+    feed_order.order = new_feed_order
 
     db.session.commit()
     logger.debug('Update MealOrder!!')
