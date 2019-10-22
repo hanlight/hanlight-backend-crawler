@@ -22,4 +22,4 @@ soupsieve==1.8
 SQLAlchemy==1.2.18
 tzlocal==1.5.1
 urllib3==1.24.1
-Werkzeug==0.14.1
+Werkzeug==0.15.3
